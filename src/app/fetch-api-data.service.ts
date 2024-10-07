@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
-import { catchError } from 'rxjs/internal/operators';
+import { catchError } from 'rxjs/internal/operators/catchError';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { AnonymousSubject } from 'rxjs/internal/Subject';
 
 //Declaring the api url that will provide data for the client app
-const apiUrl = 'YOUR_HOSTED_API_URL_HERE/';
+const apiUrl = 'https://moviemate-mk9e.onrender.com/';
 
 @Injectable({
   providedIn: 'root'
@@ -45,53 +46,46 @@ export class FetchApiDataService {
   }
 
   public getDirector(name: string): Observable<any> {
-    return this.http.get(apiUrl + `directors/${name}`).pipe(
+    return this.http.get(apiUrl + `movies/director/${name}`).pipe(
       catchError(this.handleError)
     );
   }
 
   public getGenre(name: string): Observable<any> {
-    return this.http.get(apiUrl + `genres/${name}`).pipe(
+    return this.http.get(apiUrl + `movies/genre/${name}`).pipe(
       catchError(this.handleError)
     );
   }
 
-  public getUser(username: string): Observable<any> {
-    return this.http.get(apiUrl + `users/${username}`).pipe(
+  public getUser(id: string): Observable<any> {
+    return this.http.get(apiUrl + `users/${id}`).pipe(
       catchError(this.handleError)
     );
   }
 
-  public updateUser(userDetails: any): Observable<any> {
-    return this.http.put(apiUrl + `users/${userDetails.username}`, userDetails).pipe(
+  public updateUser(id: string, userDetails: any): Observable<any> {
+    return this.http.put(apiUrl + `users/${id}`, userDetails).pipe(
       catchError(this.handleError)
     );
   }
 
-  public deleteUser(username: string): Observable<any> {
-    return this.http.delete(apiUrl + `users/${username}`).pipe(
+  public deleteUser(id: string): Observable<any> {
+    return this.http.delete(apiUrl + `users/${id}`).pipe(
       catchError(this.handleError)
     );
   }
 
-  public addFavoriteMovie(username: string, movieId: string): Observable<any> {
-    return this.http.post(apiUrl + `users/${username}/movies/${movieId}`, {}).pipe(
+  public addFavoriteMovie(id: string, movieId: string): Observable<any> {
+    return this.http.post(apiUrl + `users/${id}/favorites/${movieId}`, {}).pipe(
       catchError(this.handleError)
     );
   }
 
-  public removeFavoriteMovie(username: string, movieId: string): Observable<any> {
-    return this.http.delete(apiUrl + `users/${username}/movies/${movieId}`).pipe(
+  public removeFavoriteMovie(id: string, movieId: string): Observable<any> {
+    return this.http.delete(apiUrl + `users/${id}/favorites/${movieId}`).pipe(
       catchError(this.handleError)
     );
   }
-
-  public getAllFavoriteMovies(username: string): Observable<any> {
-    return this.http.get(apiUrl + `users/${username}`).pipe(
-      catchError(this.handleError)
-    );
-  }
-
 
   private handleError(error: HttpErrorResponse): any {
     if (error.error instanceof ErrorEvent) {
