@@ -18,6 +18,11 @@ export class FetchApiDataService {
   constructor(private http: HttpClient) {
   }
 
+  // private getToken(): string {
+  //   const user = localStorage.getItem('user');
+  //   return user ? JSON.parse(user).token : '';
+  // }
+
   // Making the api call for the user registration endpoint
   public userRegistration(userDetails: any): Observable<any> {
     console.log(userDetails);
@@ -32,8 +37,16 @@ export class FetchApiDataService {
     );
   }
 
-  public getAllMovies() {
-    return this.http.get(apiUrl + 'movies').pipe(
+  public getAllMovies(): Observable<any> {
+
+    const token = localStorage.getItem('token');
+
+    return this.http.get(apiUrl + 'movies', {
+      headers: new HttpHeaders(
+        {
+          Authorization: `Bearer ${token}`,
+        })
+    }).pipe(
       catchError(this.handleError)
     );
   }
