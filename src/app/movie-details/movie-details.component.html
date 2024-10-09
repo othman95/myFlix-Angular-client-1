@@ -1,0 +1,11 @@
+<h1 mat-dialog-title>{{ data.title }}</h1>
+<mat-dialog-content>
+  <img class="movie-image" src="{{data.imagePath}}" />
+  <p>{{data.description}}</p>
+  <p><strong>Actors:</strong>{{ data.actors }}</p>
+  <p><strong>Director:</strong> {{ data.director.name }}</p>
+  <p><strong>Genre:</strong> {{ data.genre.name }}</p>
+</mat-dialog-content>
+<div mat-dialog-actions>
+  <button mat-button mat-dialog-close>Close</button>
+</div>

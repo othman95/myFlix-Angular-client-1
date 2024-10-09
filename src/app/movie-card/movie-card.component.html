@@ -6,5 +6,8 @@
     <mat-card-subtitle>
       <img class="movie-image" src={{movie.imagePath}} />
     </mat-card-subtitle>
+    <mat-card-actions>
+      <button mat-raised-button (click)="showMovieDetails(movie)" color="primary">See details</button>
+    </mat-card-actions>
   </mat-dialog-content>
 </mat-card>
