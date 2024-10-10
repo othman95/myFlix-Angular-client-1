@@ -15,12 +15,15 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { UserLoginFormComponent } from './user-login-form/user-login-form.component';
 import { MovieCardComponent } from './movie-card/movie-card.component';
 import { WelcomePageComponent } from './welcome-page/welcome-page.component';
-import {RouterModule, Routes} from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 import { MovieDetailsComponent } from './movie-details/movie-details.component';
+import { UserProfileComponent } from './user-profile/user-profile.component';
+import { EditProfileFormComponent } from './edit-profile-form/edit-profile-form.component';
 
 const appRoutes: Routes = [
   { path: 'welcome', component: WelcomePageComponent },
   { path: 'movies', component: MovieCardComponent },
+  { path: 'users/:id', component: UserProfileComponent },
   { path: '', redirectTo: 'welcome', pathMatch: 'prefix' },  //default page
 ];
 
@@ -31,7 +34,9 @@ const appRoutes: Routes = [
     UserLoginFormComponent,
     MovieCardComponent,
     WelcomePageComponent,
-    MovieDetailsComponent
+    MovieDetailsComponent,
+    UserProfileComponent,
+    EditProfileFormComponent
   ],
   imports: [
     RouterModule.forRoot(appRoutes),

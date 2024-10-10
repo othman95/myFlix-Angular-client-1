@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FetchApiDataService } from '../fetch-api-data.service';
-import { MatDialog} from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { MovieDetailsComponent } from '../movie-details/movie-details.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-movie-card',
@@ -14,8 +16,9 @@ export class MovieCardComponent implements OnInit {
 
   constructor(
     public fetchMovies: FetchApiDataService,
-    public dialog: MatDialog
-  
+    public dialog: MatDialog,
+    public snackBar: MatSnackBar,
+    private router: Router,
   ) { }
 
   ngOnInit(): void {
@@ -36,5 +39,15 @@ export class MovieCardComponent implements OnInit {
       data: movie,
       width: '400px'
     });
+  }
+
+  seeProfile(): void {
+    const userData = localStorage.getItem('user');
+    if (userData) {
+      const user = JSON.parse(userData);
+      const userId = user._id;
+      console.log(user._id);
+      this.router.navigate(['users/' + userId]);
+    }
   }
 }
