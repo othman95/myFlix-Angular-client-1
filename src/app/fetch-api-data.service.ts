@@ -18,11 +18,6 @@ export class FetchApiDataService {
   constructor(private http: HttpClient) {
   }
 
-  // private getToken(): string {
-  //   const user = localStorage.getItem('user');
-  //   return user ? JSON.parse(user).token : '';
-  // }
-
   // Making the api call for the user registration endpoint
   public userRegistration(userDetails: any): Observable<any> {
     return this.http.post(apiUrl + 'users', userDetails).pipe(
@@ -87,7 +82,6 @@ export class FetchApiDataService {
 
   public deleteUser(id: string): Observable<any> {
     const token = localStorage.getItem('token');
-    console.log(token);
     return this.http.delete(apiUrl + `users/${id}`, {
       headers: new HttpHeaders({
         Authorization: `Bearer ${token}`
@@ -97,8 +91,14 @@ export class FetchApiDataService {
     );
   }
 
-  public addFavoriteMovie(id: string, movieId: string): Observable<any> {
-    return this.http.post(apiUrl + `users/${id}/favorites/${movieId}`, {}).pipe(
+  public addFavoriteMovie(userId: string, movieId: string): Observable<any> {
+    const token = localStorage.getItem('token');
+    console.log('Token:', token);
+    return this.http.post(apiUrl + `users/${userId}/favorites/${movieId}`, {
+      headers: new HttpHeaders({
+        Authorization: `Bearer ${token}`
+      })
+    }).pipe(
       catchError(this.handleError)
     );
   }

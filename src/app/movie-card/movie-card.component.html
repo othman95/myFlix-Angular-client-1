@@ -1,4 +1,5 @@
 <button mat-raised-button color="primary" (click)="seeProfile()">Profile</button>
+<button mat-raised-button color="primary" (click)="Logout()">Logout</button>
 
 <mat-card *ngFor="let movie of movies; let i=index;">
   <mat-dialog-content>
@@ -7,9 +8,14 @@
     </mat-card-title>
     <mat-card-subtitle>
       <img class="movie-image" src={{movie.imagePath}} />
+      <button mat-raised-button (click)="showGenreDetails(movie.genre)" color="primary">{{movie.genre.name}}</button>
+      <button mat-raised-button (click)="showDirectorDetails(movie.director)" color="primary">{{movie.director.name}}
+      </button>
     </mat-card-subtitle>
     <mat-card-actions>
       <button mat-raised-button (click)="showMovieDetails(movie)" color="primary">See details</button>
+      <!-- <button mat-raised-button (click)="addToFavorites(movie)" color="alert">Add to Favorites</button> -->
+      <mat-icon (click)="addToFavorites(movie)">favorite_border</mat-icon>
     </mat-card-actions>
   </mat-dialog-content>
 </mat-card>
