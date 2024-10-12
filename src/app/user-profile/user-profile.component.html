@@ -1,20 +1,32 @@
-<h1>Your Profile</h1>
+<mat-toolbar color="accent">
+  <span (click)="goBack()">
+    <h1>MyFlix</h1>
+  </span>
+  <span class="spacer"></span>
+  <button mat-icon-button color="primary" (click)="goBack()"><mat-icon>home</mat-icon></button>
+  <button mat-icon-button color="primary" (click)="Logout()"><mat-icon>logout</mat-icon></button>
+</mat-toolbar>
 
-<div class="user-info">
-  <h2>Username: {{ user.username }}</h2>
-  <h3>Email: {{ user.email }}</h3>
-  <h3>Birthday: {{ user.birthday | date }}</h3>
-  <h3>Favorite Movies:</h3>
-  <ul>
-    <li *ngFor="let movie of user.favorites">{{ movie.title }}</li>
-  </ul>
-</div>
+<div class="container">
+  <h2>Your Profile</h2>
 
-<div class="button-group">
-  <button mat-raised-button color="primary" (click)="openEditProfileDialog()">Edit Profile</button>
-  <button mat-raised-button color="warn" (click)="deleteProfile()">Delete Profile</button>
-</div>
+  <div class="user-info">
+    <p><strong>Username:</strong> {{ user.username }}</p>
+    <p><strong>Email:</strong> {{ user.email }}</p>
+    <p><strong>Birthday:</strong> {{ user.birthday | date }}</p>
+    <p><strong>Favorite Movies:</strong></p>
+    <ul>
+      <li *ngFor="let movie of favoriteMovies">
+        <p>{{ movie.title }}</p>
+      </li>
+    </ul>
+  </div>
 
-<div>
-  <button mat-raised-button color="primary" (click)="goBack()">Back</button>
+  <div class="button-group">
+    <button mat-raised-button color="primary" (click)="openEditProfileDialog()">Edit Profile</button>
+    <br>
+    <br>
+    <button mat-raised-button color="warn" (click)="deleteProfile()">Delete Profile</button>
+  </div>
+
 </div>

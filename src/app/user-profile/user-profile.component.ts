@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
 })
 export class UserProfileComponent implements OnInit {
   user: any = {}; // Object to store user data
+  favoriteMovies: any = []; // Array to store favorite movies
 
   constructor(
     public dialog: MatDialog,
@@ -22,6 +23,7 @@ export class UserProfileComponent implements OnInit {
 
   ngOnInit(): void {
     this.getUserData();
+    this.getFavoriteMovies();
   }
 
   // Fetch user data on initialization
@@ -30,6 +32,17 @@ export class UserProfileComponent implements OnInit {
     if (userData) {
       this.user = JSON.parse(userData);
     }
+  }
+
+  // Fetch favorite movies
+  getFavoriteMovies(): void {
+    this.fetchApiData.getAllMovies().subscribe((movies: any[]) => {
+      if (this.user.favorites) {
+        console.log(this.user.favorites);
+        this.favoriteMovies = movies.filter((movie) => this.user.favorites.includes(movie._id));
+      }}, (err) => {
+      console.error('Error, fetching movies:', err);
+  });
   }
 
   // Open the edit dialog (modal)
@@ -68,4 +81,10 @@ export class UserProfileComponent implements OnInit {
   goBack(): void {
     this.router.navigate(['movies']);
   }
+
+  Logout(): void {
+    localStorage.clear();
+    this.router.navigate(['welcome']);
+  }
+
 }

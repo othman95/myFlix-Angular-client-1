@@ -1,21 +1,36 @@
-<button mat-raised-button color="primary" (click)="seeProfile()">Profile</button>
-<button mat-raised-button color="primary" (click)="Logout()">Logout</button>
+<mat-toolbar color="accent">
+  <span (click)="goBack()">
+    <h1>MyFlix</h1>
+  </span>
+  <span class="spacer"></span>
+  <button mat-icon-button color="primary" (click)="seeProfile()"><mat-icon>account_circle</mat-icon></button>
+  <button mat-icon-button color="primary" (click)="Logout()"><mat-icon>exit_to_app</mat-icon></button>
+</mat-toolbar>
 
-<mat-card *ngFor="let movie of movies; let i=index;">
-  <mat-dialog-content>
-    <mat-card-title>
-      {{movie.title}}
-    </mat-card-title>
-    <mat-card-subtitle>
-      <img class="movie-image" src={{movie.imagePath}} />
-      <button mat-raised-button (click)="showGenreDetails(movie.genre)" color="primary">{{movie.genre.name}}</button>
-      <button mat-raised-button (click)="showDirectorDetails(movie.director)" color="primary">{{movie.director.name}}
-      </button>
-    </mat-card-subtitle>
-    <mat-card-actions>
-      <button mat-raised-button (click)="showMovieDetails(movie)" color="primary">See details</button>
-      <!-- <button mat-raised-button (click)="addToFavorites(movie)" color="alert">Add to Favorites</button> -->
-      <mat-icon (click)="addToFavorites(movie)">favorite_border</mat-icon>
-    </mat-card-actions>
-  </mat-dialog-content>
-</mat-card>
+<div fxLayout="row wrap" fxLayoutGap="16px grid" class="card-container">
+  <div fxFlex="25" fxFlex.lt-md="33" fxFlex.lt-sm="50" fxFlex.lt-xs="100" *ngFor="let movie of movies; let i=index;">
+    <mat-card>
+      <mat-card-content>
+        <mat-card-header>
+          <h2 color="primary">{{movie.title}}</h2>
+        </mat-card-header>
+        <mat-card-subtitle>
+          <button mat-button (click)="showGenreDetails(movie.genre)" color="primary">{{movie.genre.name}}</button>
+        </mat-card-subtitle>
+        <mat-card-content>
+          <img class="movie-image" src={{movie.imagePath}} />
+          <button mat-button (click)="showDirectorDetails(movie.director)" color="primary">{{movie.director.name}}
+          </button>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-raised-button (click)="showMovieDetails(movie)" color="accent">See details</button>
+          <span class="spacer"></span>
+          <button mat-icon-button (click)="toggleFavorites(movie)">
+            <mat-icon color="primary" *ngIf="!isFavorite(movie)">favorite_border</mat-icon>
+            <mat-icon color="primary" *ngIf="isFavorite(movie)">favorite</mat-icon>
+          </button>
+        </mat-card-actions>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

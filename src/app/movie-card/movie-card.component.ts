@@ -58,21 +58,40 @@ export class MovieCardComponent implements OnInit {
     this.router.navigate(['welcome']);
   }
 
-  addToFavorites(movie: any): void {
+  isFavorite(movie: any): boolean {
+    const userData = localStorage.getItem('user');
+    if (userData) {
+      const user = JSON.parse(userData);
+      return user.favorites.includes(movie._id); // Check if movie is in favorites
+    }
+    return false;
+  }
+
+  toggleFavorites(movie: any): void {
     const userData = localStorage.getItem('user');
     if (userData) {
       const user = JSON.parse(userData);
       const userId = user._id;
       const movieId = movie._id;
-      console.log('user id:', userId);
-      console.log('movie id:', movieId);
-      this.fetchMovies.addFavoriteMovie(userId, movieId).subscribe((resp: any) => {
-        this.snackBar.open('Added to favorites!', 'OK', {
-          duration: 2000
-        });
+
+      if (!this.isFavorite(movie)) {
+      
+      this.fetchMovies.addFavoriteMovie(userId, movieId).subscribe((updatedUser: any) => {
+        this.snackBar.open('Added to favorites!', 'OK', { duration: 2000 });
+        
+        // Update localStorage with the updated user object
+        localStorage.setItem('user', JSON.stringify(updatedUser));
       });
+      } else {
+        this.fetchMovies.removeFavoriteMovie(userId, movieId).subscribe((updatedUser: any) => {
+          this.snackBar.open('Removed from favorites!', 'OK', { duration: 2000 });
+          
+          // Update localStorage with the updated user object
+          localStorage.setItem('user', JSON.stringify(updatedUser));
+        });
     }
   }
+}
 
   showDirectorDetails(director: { name: string, biography: string, birth: string, death: string }): void {
     this.dialog.open(DirectorDetailsComponent, {
@@ -94,6 +113,10 @@ export class MovieCardComponent implements OnInit {
       },
       width: '400px'
     });
+  }
+
+  goBack(): void {
+    this.router.navigate(['movies']);
   }
 
 }
